@@ -1,5 +1,8 @@
 import os
 from classes import *
+import threading
+
+verrou = threading.Lock()
 
 def get_kb_input():
 
@@ -36,13 +39,21 @@ keymap = {
     "J" : "la#"
 }
 
+def play_concurrently(key):  
+    if key in keymap:
+        note = Note(keymap[key],3)
+        note.play()
+    else :
+        print("key pressed do nothing")
+    
+
 def piano():
     while True:
-        key = get_kb_input()
-        if key in keymap:
-            note = Note(keymap[key],3)
-            note.play()
-        else :
-            print("key pressed do nothing")
+        key = get_kb_input()  # Capture the keyboard input.
+        
+        # Start a new thread to play the note concurrently
+        threading.Thread(target=play_concurrently, args=(key,)).start()
+
 piano()
+
 
