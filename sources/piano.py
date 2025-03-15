@@ -1,4 +1,5 @@
 import os
+from classes import *
 
 def get_kb_input():
 
@@ -20,11 +21,9 @@ def get_kb_input():
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN,filedescriptors)
         return key
 
-print(get_kb_input())
-
 keymap = {
     "s" : "do",
-    "d" : "ré", 
+    "d" : "re", 
     "f" : "mi",
     "g" : "fa", 
     "h" : "sol",
@@ -33,19 +32,19 @@ keymap = {
     "l" : "do2"
 }
 
-class Note:
-    def __init__(self,clé,diese):
-        self.clé = clé
-        self.diese = diese
-
 def piano():
     while True:
         key = get_kb_input()
         if key in keymap:
-            note = Note(key,False)
+            note = Note(keymap[key],3)
+            print(note)
         elif key in keymap.upper():
-            note = Note(key,True)
+            note = Note(keymap[key])
+            print(note)
         else :
             print("key pressed do nothing")
+
+while True:
+    piano()
         
 
