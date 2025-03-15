@@ -37,10 +37,10 @@ def piano():
         key = get_kb_input()
         if key in keymap:
             note = Note(keymap[key],3)
-            print(note)
+            note.play()
         elif key in keymap.upper():
             note = Note(keymap[key])
-            print(note)
+            note.play()
         else :
             print("key pressed do nothing")
 

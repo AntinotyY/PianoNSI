@@ -1,4 +1,5 @@
 import math
+from playsound import playsound
 
 class Note():
 
@@ -19,15 +20,9 @@ class Note():
     def __repr__(self):
         return self.nom + str(self.octave)
 
-
-
     def play(self):
-        pass
-        #jsp mais ya besoin de self.path surement
+        playsound(self.path)
     
-
-
-
     #deuxième constructeur (donc pas de self)
     def from_frequency(frequency:float, duration=0, position=0):
 
