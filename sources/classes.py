@@ -4,12 +4,14 @@ class Note():
 
     NOTES = ["do", "do#", "re", "re#", "mi", "fa", "fa#", "sol", "sol#", "la", "la#", "si"]
 
-    def __init__(self, nom:str, octave:int):
+    def __init__(self, nom:str, octave:int, duration=0, position=0):
 
         assert nom in Note.NOTES, "débile ca existe pas " + nom
 
         self.nom = nom
         self.octave = octave
+
+        self.position = position
 
         self.path = "data/notes/" + nom + str(octave) #TODO refaire psk ils aiment pas les slash
     
@@ -27,7 +29,7 @@ class Note():
 
 
     #deuxième constructeur (donc pas de self)
-    def from_frequency(frequency:float):
+    def from_frequency(frequency:float, duration=0, position=0):
 
         DO_0 = 440 * 2**(-4.75)
 
@@ -36,10 +38,21 @@ class Note():
         note = Note.NOTES[i % 12]
         octave = (i // 12) - 1
 
-        return Note(note, octave)
+        return Note(note, octave, duration, position)
 
 
 
+class Partition():
+
+    def __init__(self, notes: list[Note]):
+        self.notes = notes
+    
+    def __repr__(self):
+        return str(self.notes)
+    
+
+    def cleanup(self):
+        pass
 
 
     
