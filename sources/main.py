@@ -78,7 +78,7 @@ def split_signal(signal, size:int, overlap:int): # découpe un signal en une lis
 
 
 
-with wave.open("data/notes/C1.wav", "rb") as song:
+with wave.open("data/D3.wav", "rb") as song:
 
     signal = wav_to_signal(song)
     framerate = song.getframerate() #fréquence d'échantillonage en Hz
