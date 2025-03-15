@@ -1,5 +1,5 @@
 import math
-from playsound import playsound
+from playsound import playsound #version 1.2.2
 
 class Note():
 
