@@ -1,15 +1,10 @@
 import wave
+
 import matplotlib.figure
+
 import numpy
 import matplotlib.pyplot as plt
-
-class Note:
-    def __init__(self, frequency, duration):
-        self.frequency = frequency
-        self.duration = duration
-
-        self.name = str(frequency) #a changer en mode do 5 et tout
-
+from classes import *
 
 
 
@@ -62,6 +57,8 @@ def find_frequency(signal, framerate):  #trouve la fréquence dominante d'un sig
     return dominant_frequency
 
 
+
+
 def split_signal(signal, size:int, overlap:int): # découpe un signal en une liste de signaux de taille size AVEC REPETITION JUSQU'A OVERLAP (ex. [1, 2, 3, 4, 5] -> [[1, 2], [2, 3], [3, 4], [4, 5]] avec size = 2 et overlap = 1)
                                          # l'overlap permet d'avoir des meilleurs résultats en prenant en compte la note dominante dans tous ses alentours plutot que par bouts totalements séparés
     
@@ -77,10 +74,11 @@ def split_signal(signal, size:int, overlap:int): # découpe un signal en une lis
     
     return result
 
-    
 
 
-with wave.open("data/dorémifa.wav", "rb") as song:
+
+
+with wave.open("data/notes/C1.wav", "rb") as song:
 
     signal = wav_to_signal(song)
     framerate = song.getframerate() #fréquence d'échantillonage en Hz
@@ -91,6 +89,20 @@ with wave.open("data/dorémifa.wav", "rb") as song:
     splitting_size = int(CHECK_DURATION / (1-OVERLAP_RATIO) * framerate ) # taille des sous signaux
     
     sub_signals = split_signal(signal, splitting_size, int(splitting_size * OVERLAP_RATIO))
+
+
+    notes = []
+
+    for i in range(len(sub_signals)):
+
+        frequence = find_frequency(sub_signals[i], framerate)
+        duree = CHECK_DURATION
+        position = i * CHECK_DURATION
+
+        notes.append(Note.from_frequency(frequence, duree, position))
+
+    partition = Partition(notes)
+    print(partition)
 
     
     plt.figure(figsize=(10, 4))
@@ -104,13 +116,6 @@ with wave.open("data/dorémifa.wav", "rb") as song:
     plt.legend()
     plt.show()
 
-
-    """
-    for i in range(len(sub_signals)):
-        print("Temps :", i * CHECK_DURATION, "s")
-        print("Fréquence :", find_frequency(sub_signals[i], framerate), "Hz")
-
-    """
 
 
 
