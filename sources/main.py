@@ -76,47 +76,45 @@ def split_signal(signal, size:int, overlap:int): # découpe un signal en une lis
 
 
 
+def get_song_partition(path) -> Partition:
+    with wave.open(path, "rb") as song:
 
+        signal = wav_to_signal(song)
+        framerate = song.getframerate() #fréquence d'échantillonage en Hz
 
-with wave.open("data/D3.wav", "rb") as song:
+        CHECK_DURATION = 0.25   # en secondes, la durée sur laquelle on cherche la note dominante
+        OVERLAP_RATIO = 0.5     # ENTRE 0 et 1 (LOGIQUEMENT 0.5 ou moins) proportion du sous signal répétée dans le suivant
 
-    signal = wav_to_signal(song)
-    framerate = song.getframerate() #fréquence d'échantillonage en Hz
-
-    CHECK_DURATION = 0.25   # en secondes, la durée sur laquelle on cherche la note dominante
-    OVERLAP_RATIO = 0.5     # ENTRE 0 et 1 (LOGIQUEMENT 0.5 ou moins) proportion du sous signal répétée dans le suivant
-
-    splitting_size = int(CHECK_DURATION / (1-OVERLAP_RATIO) * framerate ) # taille des sous signaux
+        splitting_size = int(CHECK_DURATION / (1-OVERLAP_RATIO) * framerate ) # taille des sous signaux
     
-    sub_signals = split_signal(signal, splitting_size, int(splitting_size * OVERLAP_RATIO))
+        sub_signals = split_signal(signal, splitting_size, int(splitting_size * OVERLAP_RATIO))
 
 
-    notes = []
+        notes = []
 
-    for i in range(len(sub_signals)):
+        for i in range(len(sub_signals)):
 
-        frequence = find_frequency(sub_signals[i], framerate)
-        duree = CHECK_DURATION
-        position = i * CHECK_DURATION
+            frequence = find_frequency(sub_signals[i], framerate)
+            duration = CHECK_DURATION
+            position = i * CHECK_DURATION
 
-        notes.append(Note.from_frequency(frequence, duree, position))
+            notes.append(Note.from_frequency(frequence, duration, position))
 
-    partition = Partition(notes)
-    print(partition)
+        return Partition(notes)
 
-    
-    plt.figure(figsize=(10, 4))
-    plt.plot(
-        [i * CHECK_DURATION for i in range(len(sub_signals))],
-        [find_frequency(sub, framerate) for sub in sub_signals]
-    )
-    plt.xlabel("Temps (secondes)")
-    plt.ylabel("Fréquence dominante (Hz)")
-    plt.title("Fréquences")
-    plt.legend()
-    plt.show()
+        """
+        plt.figure(figsize=(10, 4))
+        plt.plot(
+            [i * CHECK_DURATION for i in range(len(sub_signals))],
+            [find_frequency(sub, framerate) for sub in sub_signals]
+        )
+        plt.xlabel("Temps (secondes)")
+        plt.ylabel("Fréquence dominante (Hz)")
+        plt.title("Fréquences")
+        plt.legend()
+        plt.show()"""
 
-
+print(get_song_partition("data/asgore.wav"))
 
 
     
