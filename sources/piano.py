@@ -1,19 +1,5 @@
 import os
 
-
-class File :
-    def __init__(self):
-        self.tab = []
-
-    def est_vide(self) :
-        return len(self.tab)==0
-    
-    def defile(self):
-        return self.tab.pop(0)
-        
-    def enfile(self,x):
-        self.tab.append(x)
-
 def get_kb_input():
 
     if os.name == "nt":  #windows
@@ -35,3 +21,31 @@ def get_kb_input():
         return key
 
 print(get_kb_input())
+
+keymap = {
+    "s" : "do",
+    "d" : "ré", 
+    "f" : "mi",
+    "g" : "fa", 
+    "h" : "sol",
+    "j" : "la",
+    "k" : "si",
+    "l" : "do2"
+}
+
+class Note:
+    def __init__(self,clé,diese):
+        self.clé = clé
+        self.diese = diese
+
+def piano():
+    while True:
+        key = get_kb_input()
+        if key in keymap:
+            note = Note(key,False)
+        elif key in keymap.upper():
+            note = Note(key,True)
+        else :
+            print("key pressed do nothing")
+        
+
