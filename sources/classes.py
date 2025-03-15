@@ -14,7 +14,7 @@ class Note():
 
         self.position = position
 
-        self.path = "data/notes/" + nom + str(octave) #TODO refaire psk ils aiment pas les slash
+        self.path = "data/notes/" + nom + str(octave)+ ".wav" #TODO refaire psk ils aiment pas les slash
     
 
     def __repr__(self):

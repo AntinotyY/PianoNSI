@@ -29,7 +29,7 @@ keymap = {
     "h" : "sol",
     "j" : "la",
     "k" : "si",
-    "l" : "do2"
+    "l" : "do"
 }
 
 def piano():
