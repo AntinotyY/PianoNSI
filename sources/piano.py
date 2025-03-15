@@ -29,7 +29,11 @@ keymap = {
     "h" : "sol",
     "j" : "la",
     "k" : "si",
-    "l" : "do"
+    "S" : "do#",
+    "D" : "re#",
+    "G" : "fa#",
+    "H" : "sol#",
+    "J" : "la#"
 }
 
 def piano():
@@ -38,13 +42,7 @@ def piano():
         if key in keymap:
             note = Note(keymap[key],3)
             note.play()
-        elif key in keymap.upper():
-            note = Note(keymap[key])
-            note.play()
         else :
             print("key pressed do nothing")
-
-while True:
-    piano()
-        
+piano()
 
