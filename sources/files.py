@@ -1,9 +1,7 @@
 import wave
-
-import matplotlib.figure
-
-import numpy
 import matplotlib.pyplot as plt
+import numpy
+
 from classes import *
 
 
@@ -100,9 +98,7 @@ def get_song_partition(path) -> Partition:
 
             notes.append(Note.from_frequency(frequence, duration, position))
 
-        return Partition(notes)
-
-        
+        """
         plt.figure(figsize=(10, 4))
         plt.plot(
             [i * CHECK_DURATION for i in range(len(sub_signals))],
@@ -112,7 +108,9 @@ def get_song_partition(path) -> Partition:
         plt.ylabel("Fréquence dominante (Hz)")
         plt.title("Fréquences")
         plt.legend()
-        plt.show()
+        plt.show
+        """
+        return Partition(notes)
 
 print(get_song_partition("data/asgore.wav"))
 
