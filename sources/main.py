@@ -102,7 +102,7 @@ def get_song_partition(path) -> Partition:
 
         return Partition(notes)
 
-        """
+        
         plt.figure(figsize=(10, 4))
         plt.plot(
             [i * CHECK_DURATION for i in range(len(sub_signals))],
@@ -112,7 +112,7 @@ def get_song_partition(path) -> Partition:
         plt.ylabel("Fréquence dominante (Hz)")
         plt.title("Fréquences")
         plt.legend()
-        plt.show()"""
+        plt.show()
 
 print(get_song_partition("data/asgore.wav"))
 
