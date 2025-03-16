@@ -75,6 +75,7 @@ def split_signal(signal, size:int, overlap:int): # découpe un signal en une lis
 
 
 def get_song_partition(path) -> Partition:
+
     with wave.open(path, "rb") as song:
 
         signal = wav_to_signal(song)
@@ -113,11 +114,3 @@ def get_song_partition(path) -> Partition:
         return Partition(notes)
 
 print(get_song_partition("data/asgore.wav"))
-
-
-    
-
-
-
-
-

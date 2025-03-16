@@ -1,5 +1,5 @@
 import math
-from playsound import playsound #version 1.2.2
+import playsound3
 
 class Note():
 
@@ -15,7 +15,8 @@ class Note():
         self.duration = duration
         self.position = position
 
-        self.path = "data/notes/" + nom + str(octave)+ ".wav" #TODO refaire psk ils aiment pas les slash
+        self.path = "/".join(["data", "notes", nom + str(octave) + ".wav"]) #/data/notes/do2.wav
+       
     
     def __str__(self):
         return self.nom + str(self.octave)
@@ -26,7 +27,9 @@ class Note():
 
 
     def play(self):
-        playsound(self.path)
+        playsound3.playsound(self.path, False)
+
+        
     
     #deuxième constructeur (donc pas de self)
     def from_frequency(frequency:float, duration=0, position=0):
@@ -46,7 +49,7 @@ class Note():
 
 class Partition():
 
-    def __init__(self, notes: list[Note]):
+    def __init__(self, notes: list):
 
         self.notes = notes
         self.cleanup()
