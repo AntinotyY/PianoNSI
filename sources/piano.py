@@ -1,4 +1,8 @@
 import os
+from classes import *
+import threading
+
+verrou = threading.Lock()
 
 def get_kb_input():
 
@@ -20,32 +24,36 @@ def get_kb_input():
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN,filedescriptors)
         return key
 
-print(get_kb_input())
-
 keymap = {
     "s" : "do",
-    "d" : "ré", 
+    "d" : "re", 
     "f" : "mi",
     "g" : "fa", 
     "h" : "sol",
     "j" : "la",
     "k" : "si",
-    "l" : "do2"
+    "S" : "do#",
+    "D" : "re#",
+    "G" : "fa#",
+    "H" : "sol#",
+    "J" : "la#"
 }
 
-class Note:
-    def __init__(self,clé,diese):
-        self.clé = clé
-        self.diese = diese
+def play_concurrently(key):  
+    if key in keymap:
+        note = Note(keymap[key],3)
+        note.play()
+    else :
+        print("key pressed do nothing")
+    
 
 def piano():
     while True:
-        key = get_kb_input()
-        if key in keymap:
-            note = Note(key,False)
-        elif key in keymap.upper():
-            note = Note(key,True)
-        else :
-            print("key pressed do nothing")
+        key = get_kb_input()  # Capture the keyboard input.
         
+        # Start a new thread to play the note concurrently
+        threading.Thread(target=play_concurrently, args=(key,)).start()
+
+piano()
+
 

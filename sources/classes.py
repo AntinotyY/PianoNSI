@@ -1,4 +1,5 @@
 import math
+from playsound import playsound #version 1.2.2
 
 class Note():
 
@@ -14,7 +15,7 @@ class Note():
         self.duration = duration
         self.position = position
 
-        self.path = "data/notes/" + nom + str(octave) #TODO refaire psk ils aiment pas les slash
+        self.path = "data/notes/" + nom + str(octave)+ ".wav" #TODO refaire psk ils aiment pas les slash
     
     def __str__(self):
         return self.nom + str(self.octave)
@@ -25,12 +26,8 @@ class Note():
 
 
     def play(self):
-        pass
-        #jsp mais ya besoin de self.path surement
+        playsound(self.path)
     
-
-
-
     #deuxième constructeur (donc pas de self)
     def from_frequency(frequency:float, duration=0, position=0):
         if frequency == 0.0:
