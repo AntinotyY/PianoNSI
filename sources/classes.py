@@ -15,6 +15,7 @@ class Note():
         self.duration = duration
         self.position = position
 
+        #NE PAS METTRE OS.SEP ICI
         self.path = "/".join(["data", "notes", nom + str(octave) + ".wav"]) #/data/notes/do2.wav
        
     
