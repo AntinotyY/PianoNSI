@@ -1,6 +1,6 @@
 import os
 from classes import *
-import threading
+import tkinter
 
 
 def get_kb_input():
@@ -8,11 +8,11 @@ def get_kb_input():
     if os.name == "nt":  #windows
         import msvcrt
         while True:
-            if msvcrt.kbhit(): #key is pressed
-                key = msvcrt.getwch() #decode
+            if msvcrt.kbhit(): #touche appuyée
+                key = msvcrt.getwch() #obtenir la touche
                 return key
 
-    else:   #google
+    else:  #GOOGLE (STACK OVERFLOW)
 
         import termios
         import tty
@@ -22,8 +22,10 @@ def get_kb_input():
         key = sys.stdin.read(1)[0]
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN,filedescriptors)
         return key
+    
+# Dico de l'octave 3, celui du milieu
 
-keymap = {
+keymap3 = {
     "s" : "do",
     "d" : "re", 
     "f" : "mi",
@@ -36,28 +38,73 @@ keymap = {
     "G" : "fa#",
     "H" : "sol#",
     "J" : "la#"
-}
+}  
 
-def play_concurrently(key):  
-    if key in keymap:
-        note = Note(keymap[key],3)
-        note.play()
-    else :
-        print("key pressed do nothing")
-    
+#Dico de l'octave 2
+
+keymap2 = {
+    "z" : "do",
+    "e" : "re", 
+    "r" : "mi",
+    "t" : "fa", 
+    "y" : "sol",
+    "u" : "la",
+    "i" : "si",
+    "Z" : "do#",
+    "E" : "re#",
+    "T" : "fa#",
+    "Y" : "sol#",
+    "U" : "la#"
+}  
+
+# Dico de l'octave 4
+
+keymap4 = {
+    "x" : "do",
+    "c" : "re", 
+    "v" : "mi",
+    "b" : "fa", 
+    "n" : "sol",
+    "," : "la",
+    ";" : "si",
+    "X" : "do#",
+    "C" : "re#",
+    "B" : "fa#",
+    "N" : "sol#",
+    "?" : "la#"
+}  
 
 def piano():
     while True:
         key = get_kb_input()  # Capture the keyboard input.
 
-        if key in keymap:
-            note = Note(keymap[key],3)
+        if key in keymap3:
+            note = Note(keymap3[key],3)
             note.play()
             print(note)
 
-        # Start a new thread to play the note concurrently
-        #threading.Thread(target=play_concurrently, args=(key,)).start()
+        elif key in keymap2:
+            note = Note(keymap2[key],2)
+            note.play()
+            print(note)
+
+        elif key in keymap4:
+            note = Note(keymap4[key],4)
+            note.play()
+            print(note)
+
+        else :
+            print("key pressed do nothing")
 
 piano()
 
+window = tkinter.Tk() #créer fenetre
+window.title("Play Piano") #titre fenetre
+window.geometry('1080x720')
+window.minsize(480,360)
+window.config(background="#cccccc")
 
+label_title = tkinter.Label(window,text="Jouez au piano avec le clavier", font=('Arial'))
+label_title.pack()
+
+window.mainloop() #afficher fenetre
