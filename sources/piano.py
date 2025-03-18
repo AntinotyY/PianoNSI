@@ -96,15 +96,27 @@ def piano():
         else :
             print("key pressed do nothing")
 
-piano()
-
+#Initialiser fenetre
 window = tkinter.Tk() #créer fenetre
 window.title("Play Piano") #titre fenetre
 window.geometry('1080x720')
 window.minsize(480,360)
 window.config(background="#cccccc")
 
-label_title = tkinter.Label(window,text="Jouez au piano avec le clavier", font=('Arial'))
+#Frames
+frame = tkinter.Frame(window,bg="#cccccc") #titre et sous titres
+frame_piano = tkinter.Frame(window,bg="#cccccc")
+
+#Titre
+label_title = tkinter.Label(window,text="Jouez au piano avec le clavier", font=('Courrier',35),bg="#cccccc")
 label_title.pack()
 
-window.mainloop() #afficher fenetre
+#Sous Titre
+label_subtitle = tkinter.Label(window,text="3 octaves disponibles !", font=('Courrier',15),bg="#cccccc")
+label_subtitle.pack()
+
+
+#affichage
+frame.pack(side="top")
+frame_piano.pack(expand=True)
+window.mainloop()
