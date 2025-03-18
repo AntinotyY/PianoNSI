@@ -29,31 +29,53 @@ def wav_to_signal(song: wave.Wave_read):
     return signal                   # renvoie un array numpy d'entiers qui correspondent aux valeurs du fichier wav (amplitude du son)
 
 
+#----------------------------------------------------------------------------------------------------------------------------------------------
+#---------------PARTIE ECRITE GRACE A CHAT GPT-------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------------------------------------
 
+#fonctions permettant de trouver la fréquence dominante d'un signal + trucs d'optimisation pour avoir de meilleurs résultats
 
-def find_frequency(signal, framerate):  #trouve la fréquence dominante d'un signal à l'aide de la FFT (merci chatgpt)
+def bandpass_filter(signal, lowcut, highcut, framerate):
+    """Applique un filtre passe-bande pour limiter les fréquences hors de la plage musicale."""
+    freqs = numpy.fft.fftfreq(len(signal), d=1 / framerate)
+    fft_signal = numpy.fft.fft(signal)
+    filter_mask = (numpy.abs(freqs) >= lowcut) & (numpy.abs(freqs) <= highcut)
+    return numpy.fft.ifft(fft_signal * filter_mask).real
 
-    # Appliquer la FFT pour obtenir le spectre fréquentiel
-    fft_result = numpy.fft.fft(signal)
+def cepstral_analysis(signal, framerate):
+    """Analyse cepstrale pour détecter la fréquence fondamentale."""
+    cepstrum = numpy.fft.ifft(numpy.log(numpy.abs(numpy.fft.fft(signal)) + 1e-6)).real
+    return framerate / (numpy.argmax(cepstrum[1:]) + 1)
+
+def find_frequency(signal, framerate):
+    if len(signal) == 0:
+        return 0.0
     
-    # Calculer les fréquences associées aux indices du spectre FFT
-    freqs = numpy.fft.fftfreq(len(signal), d=1/framerate)
+    filtered_signal = bandpass_filter(signal, 150, 1200, framerate)
+    freqs = numpy.fft.fftfreq(len(filtered_signal), d=1 / framerate)
+    magnitudes = numpy.abs(numpy.fft.fft(filtered_signal))[:len(freqs) // 2]
+    positive_freqs = freqs[:len(freqs) // 2]
     
-    # Calculer la magnitude du résultat FFT (valeurs absolues)
-    magnitudes = numpy.abs(fft_result)
+    melody_indices = (positive_freqs > 150) & (positive_freqs < 1200)
+    filtered_freqs = positive_freqs[melody_indices]
+    filtered_magnitudes = magnitudes[melody_indices]
     
-    # Prendre seulement la partie positive du spectre (symétrique)
-    positive_freqs = freqs[:len(freqs)//2]
-    positive_magnitudes = magnitudes[:len(magnitudes)//2]
+    if not numpy.any(filtered_magnitudes):
+        return 0.0
     
-    # Trouver l'indice de la fréquence avec l'amplitude maximale
-    max_index = numpy.argmax(positive_magnitudes)
+    dominant_frequency = filtered_freqs[numpy.argmax(filtered_magnitudes)]
     
-    # Retourner la fréquence dominante
-    dominant_frequency = positive_freqs[max_index]
+    for i in range(2, 6):
+        harmonic_freq = dominant_frequency * i
+        if any(numpy.isclose(filtered_freqs, harmonic_freq, atol=1.0)):
+            dominant_frequency /= i
+            break
     
     return dominant_frequency
 
+#----------------------------------------------------------------------------------------------------------------------------------------------
+#---------------FIN DE PARTIE ECRITE GRACE A CHAT GPT------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -81,8 +103,8 @@ def get_song_partition(path) -> Partition:
         signal = wav_to_signal(song)
         framerate = song.getframerate() #fréquence d'échantillonage en Hz
 
-        CHECK_DURATION = 0.25   # en secondes, la durée sur laquelle on cherche la note dominante
-        OVERLAP_RATIO = 0.5     # ENTRE 0 et 1 (LOGIQUEMENT 0.5 ou moins) proportion du sous signal répétée dans le suivant
+        CHECK_DURATION = 0.10   # en secondes, la durée sur laquelle on cherche la note dominante
+        OVERLAP_RATIO = 0.5  # ENTRE 0 et 1, (pas 1) proportion du sous signal répétée dans le suivant
 
         splitting_size = int(CHECK_DURATION / (1-OVERLAP_RATIO) * framerate ) # taille des sous signaux
     
@@ -109,8 +131,11 @@ def get_song_partition(path) -> Partition:
         plt.ylabel("Fréquence dominante (Hz)")
         plt.title("Fréquences")
         plt.legend()
-        plt.show
+        plt.show()"
         """
+        
         return Partition(notes)
 
-print(get_song_partition("data/asgore.wav"))
+
+
+get_song_partition("data/zelda.wav").play()
