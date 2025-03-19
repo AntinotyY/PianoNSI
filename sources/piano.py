@@ -77,7 +77,6 @@ keymap4 = {
 def piano():
     while True:
         key = get_kb_input()  # Capture the keyboard input.
-
         if key in keymap3:
             note = Note(keymap3[key],3)
             note.play()
@@ -95,6 +94,7 @@ def piano():
 
         else :
             print("key pressed do nothing")
+        window.mainloop()
 
 #Initialiser fenetre
 window = tkinter.Tk() #créer fenetre
@@ -104,19 +104,23 @@ window.minsize(480,360)
 window.config(background="#cccccc")
 
 #Frames
-frame = tkinter.Frame(window,bg="#cccccc") #titre et sous titres
+frame = tkinter.Frame(window,bg="#cccccc",bd=2,relief="sunken") #titre et sous titres
 frame_piano = tkinter.Frame(window,bg="#cccccc")
 
 #Titre
-label_title = tkinter.Label(window,text="Jouez au piano avec le clavier", font=('Courrier',35),bg="#cccccc")
+label_title = tkinter.Label(frame,text="Jouez au piano avec le clavier", font=('Courrier',35),bg="#cccccc")
 label_title.pack()
 
 #Sous Titre
-label_subtitle = tkinter.Label(window,text="3 octaves disponibles !", font=('Courrier',15),bg="#cccccc")
+label_subtitle = tkinter.Label(frame,text="3 octaves disponibles !", font=('Courrier',15),bg="#cccccc")
 label_subtitle.pack()
 
+#bouton start
+button_start = tkinter.Button(frame,text="START",fg = "black", bg= "white",command=piano)
+button_start.pack()
 
 #affichage
 frame.pack(side="top")
 frame_piano.pack(expand=True)
-window.mainloop()
+
+piano()
