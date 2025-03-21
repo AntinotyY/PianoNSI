@@ -1,7 +1,7 @@
 import os
 from classes import *
 import tkinter
-
+import threading
 
 def get_kb_input():
 
@@ -94,7 +94,7 @@ def piano():
 
         else :
             print("key pressed do nothing")
-        window.mainloop()
+
 
 #Initialiser fenetre
 window = tkinter.Tk() #créer fenetre
@@ -123,4 +123,11 @@ button_start.pack()
 frame.pack(side="top")
 frame_piano.pack(expand=True)
 
-piano()
+def start(window):
+    window.mainloop()
+
+threadpiano = Thread(target = piano,args = ())
+threadwindows = Thread(target = start, args = (windows))
+                       
+threadpiano.start()
+threadwindows.start()
