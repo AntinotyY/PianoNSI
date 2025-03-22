@@ -1,41 +1,86 @@
 import tkinter
 from classes import *
 
-# Key mappings for different octaves
+
+# Dico de l'octave 3, celui du milieu
+
 keymap3 = {
-    "s": "do", "d": "re", "f": "mi", "g": "fa", "h": "sol", "j": "la", "k": "si",
-    "S": "do#", "D": "re#", "G": "fa#", "H": "sol#", "J": "la#"
-}
+    "s" : "do",
+    "S" : "do#",
+    "d" : "re", 
+    "D" : "re#",
+    "f" : "mi",
+    "g" : "fa", 
+    "G" : "fa#",
+    "h" : "sol",
+    "H" : "sol#",
+    "j" : "la",
+    "J" : "la#",
+    "k" : "si"
+}  
+
+#Dico de l'octave 2
 
 keymap2 = {
-    "z": "do", "e": "re", "r": "mi", "t": "fa", "y": "sol", "u": "la", "i": "si",
-    "Z": "do#", "E": "re#", "T": "fa#", "Y": "sol#", "U": "la#"
-}
+    "z" : "do",
+    "Z" : "do#",
+    "e" : "re", 
+    "E" : "re#",
+    "r" : "mi",
+    "t" : "fa", 
+    "T" : "fa#",
+    "y" : "sol",
+    "Y" : "sol#",
+    "u" : "la",
+    "U" : "la#",
+    "i" : "si"
+}  
+
+# Dico de l'octave 4
 
 keymap4 = {
-    "x": "do", "c": "re", "v": "mi", "b": "fa", "n": "sol", ",": "la", ";": "si",
-    "X": "do#", "C": "re#", "B": "fa#", "N": "sol#", "?": "la#"
+    "x" : "do",
+    "X" : "do#",
+    "c" : "re", 
+    "C" : "re#",
+    "v" : "mi",
+    "b" : "fa",
+    "B" : "fa#", 
+    "n" : "sol",
+    "N" : "sol#",
+    "," : "la",
+    "?" : "la#",
+    ";" : "si"
 }
+#fonction jouant le piano avec le clavier
 
-# Function to handle key press and play the note
 def key_press(event):
-    key = event.char  # Get the key pressed
+    key = event.char  #key pressed
 
-    # Check if the key is in any of the keymaps and play the corresponding note
     if key in keymap3:
         note = Note(keymap3[key], 3)
         note.play()
         print(note)
+
     elif key in keymap2:
         note = Note(keymap2[key], 2)
         note.play()
         print(note)
+
     elif key in keymap4:
         note = Note(keymap4[key], 4)
         note.play()
+
         print(note)
     else:
         print("Key pressed does nothing")
+
+#fonction jouant le piano avec les boutons
+
+def play_note(note_name, octave):
+    note = Note(note_name, octave)
+    note.play()
+    print(note)
 
 # Initialize tkinter window
 window = tkinter.Tk()
@@ -56,12 +101,35 @@ label_title.pack()
 label_subtitle = tkinter.Label(frame, text="3 octaves disponibles !", font=('Courrier', 15), bg="#cccccc")
 label_subtitle.pack()
 
-# Display frames
+def create_piano_octave(octave, keymap, row):  #pour ne pas avoir 400 lignes de créations de boutons
+
+    i = 0   # placer dans les colonnes
+
+    for key, note in keymap.items():
+
+        txt = note+str(octave) + "\n" + "("+key+")"   #texte du bouton
+        button = tkinter.Button(frame_piano, text=txt, font=('Arial', 12), width=4, height=12,command=lambda note=note, octave=octave: play_note(note, octave))
+        button.grid(row=row, column=i, padx=2, pady=2) 
+
+        if key.islower() or key in [",",";"]: # tout ce qui est une touche blanche du piano
+            button.config(bg='white', fg='black')
+
+        else: #touches noirs du piano
+            button.config(bg='black', fg='white')
+
+        i += 1  # on passe à la colonne suivante
+
+# Creer rangée de notes pour chaques octaves
+create_piano_octave(2, keymap2, 0)
+create_piano_octave(3, keymap3, 1)
+create_piano_octave(4, keymap4, 2)
+
+# affichage
 frame.pack(side="top")
 frame_piano.pack(expand=True)
 
-# Bind the key press event to the `key_press` function
+# Associe l'evenement d'une touche préssée a la fonction key_press
 window.bind("<KeyPress>", key_press)
 
-# Start tkinter's main loop (this must run in the main thread)
+# lancer fenetre
 window.mainloop()
