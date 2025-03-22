@@ -1,1 +1,7 @@
-euh faut expliquer la structuration du projet
+Le fichier data contient les notes de musiques d'un piano classique et différentes musiques qui servent de test.
+Le dossier sources contient tout les fichiers pythons:
+classes.py est un fichier comportant 2 classes, Note et Partition, qui servent dans les 2 autres fichiers python,
+notamment pour jouer une note ou une partition depuis les fichiers audios stockés dans data
+piano.py contient une interface permettant de jouer au piano (3 octaves différents) soit avec le clavier, soit avec des une interface
+crée avec tkinter
+files.py est un fichier qui transforme une musique (.wav) en une partition de notes, puis qui joue la version piano de cette musique.

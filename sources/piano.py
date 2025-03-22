@@ -77,10 +77,13 @@ def key_press(event):
 
 #fonction jouant le piano avec les boutons
 
-def play_note(note_name, octave):
+def play_note(note_name : str, octave : int):
     note = Note(note_name, octave)
     note.play()
     print(note)
+
+#AIDE DE LA DOCUMENTATION TKINTER https://docs.python.org/fr/3.13/library/tkinter.html 
+
 
 # Initialize tkinter window
 window = tkinter.Tk()
