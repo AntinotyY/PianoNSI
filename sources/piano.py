@@ -1,3 +1,6 @@
+#Projet : PianoNSI
+#Auteurs : Rafaël Lacan, Antoine Meignan
+
 import tkinter
 from classes import *
 

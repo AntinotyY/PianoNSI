@@ -1,0 +1,4 @@
+Notre projet vous permet à la fois de jouer du piano simplement grâce à votre clavier, mais aussi de générer la partition de votre musique 
+favorite pour ensuite la jouer sur ce même piano. Nous tentons ainsi de combiner le domaine de l'informatique avec celui de la musique. 
+Nous espérons que notre projet permettra, à notre échelle, d'améliorer l'accessibilité de tous à l'art et à la culture, 
+pour plus tard peut-être permettre à des gens d'apprendre cet instrument grâce à lui.

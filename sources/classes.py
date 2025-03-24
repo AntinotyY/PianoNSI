@@ -1,3 +1,6 @@
+#Projet : PianoNSI
+#Auteurs : Antoine Meignan, Rafaël Lacan
+
 import math
 import playsound3
 import time

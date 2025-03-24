@@ -1,6 +1,10 @@
+#Projet : PianoNSI
+#Auteurs : Antoine Meignan, Rafaël Lacan
+
 import wave
 import matplotlib.pyplot as plt
 import numpy
+import os
 
 from classes import *
 
@@ -32,6 +36,10 @@ def wav_to_signal(song: wave.Wave_read):
 #----------------------------------------------------------------------------------------------------------------------------------------------
 #---------------PARTIE ECRITE GRACE A CHAT GPT-------------------------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------------------------------------------------------------------
+
+# Cette partie utilise la transformée de Fourier, trop avancée pour notre niveau actuel mais indispensable à notre projet.
+# Nous avons ainsi eu recours à l'aide de l'IA pour cette partie délimitée.
+
 
 #fonctions permettant de trouver la fréquence dominante d'un signal + trucs d'optimisation pour avoir de meilleurs résultats
 
@@ -121,6 +129,8 @@ def get_song_partition(path) -> Partition:
 
             notes.append(Note.from_frequency(frequence, duration, position))
 
+
+        #tests
         """
         plt.figure(figsize=(10, 4))
         plt.plot(
@@ -137,5 +147,5 @@ def get_song_partition(path) -> Partition:
         return Partition(notes)
 
 
-
+#PAS BESOIN DE OS.SEP.JOIN ICI
 get_song_partition("data/zelda.wav").play()
