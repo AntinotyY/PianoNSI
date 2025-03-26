@@ -14,3 +14,5 @@
     - 3.9
 
  # (si erreur MCI error code: 263 ou 266, merci de changer de version de python avec l'une des compatibles)
+
+ # Pour commencer, exécuter main.py et suivre les instructions
