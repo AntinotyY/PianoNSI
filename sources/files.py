@@ -145,7 +145,3 @@ def get_song_partition(path) -> Partition:
         """
         
         return Partition(notes)
-
-
-#PAS BESOIN DE OS.SEP.JOIN ICI
-get_song_partition("data/zelda.wav").play()

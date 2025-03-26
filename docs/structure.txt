@@ -5,3 +5,4 @@ notamment pour jouer une note ou une partition depuis les fichiers audios stock�
 piano.py contient une interface permettant de jouer au piano (3 octaves différents) soit avec le clavier, soit avec des une interface
 crée avec tkinter
 files.py est un fichier qui transforme une musique (.wav) en une partition de notes, puis qui joue la version piano de cette musique.
+main.py est le fichier qui relie tout les codes.
